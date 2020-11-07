@@ -36,7 +36,8 @@ if($missao == $cod_secreto) {
                 $sql_insert = mysqli_query($conn, "INSERT INTO painel(usr_habbo, usr_senha) VALUES('{$theuser}', '{$senha}')");
                 echo "<script type='text/javascript'>alert('Sua conta foi criada com sucesso. \n Bem-vindo!');window.location.href='../painel.php'</script>";
                 header('Location: ../painel.php');
-                $_SESSION['usuario'] = $praca_name;
+
+
             }
          else {
             echo "<script type='text/javascript'>alert('Você não é um alistado.');window.location.href='../index.php'</script>";
