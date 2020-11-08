@@ -62,7 +62,9 @@ elseif(isset($_POST['promover'])) {
         $sql_promover = mysqli_query($conn, "UPDATE membros SET usr_patente = '{$newpatente_id}', usr_responsavel = '{$usuarioNome}', usr_promo = CURRENT_TIMESTAMP() WHERE usr_habbo = '{$nick}'");
         $sql_insertlog = mysqli_query($conn, "INSERT INTO logs(usr_habbo, msg, usr_ip, log_tipo) VALUES('{$usuarioNome}', 'Promoveu o usuário {$nick} - {$motivos}', '{$usr_ip}', '1')");
         $sql_insertnoti = mysqli_query($conn, "INSERT INTO notificacoes(enviado_por, user, msg, noti_type) VALUES('{$usuarioNome}', '{$nick}', 'Você foi promovido! Motivos/descrições: {$motivos}', '1')");
-        }
+        $sql_inserhist = mysqli_query($conn, "INSERT INTO historico(enviado_por, usr_habbo, tipo, msg) VALUES('{$usuarioNome}', '{$nick}', '1', '{$motivos}')");
+
+    }
         else { # Não pode promover
             echo "<script type='text/javascript'>alert('Você não pode promover este usuário!');window.location.href='painel.php';</script>";
             $usr_ip = $_SERVER['REMOTE_ADDR'];
@@ -102,7 +104,9 @@ elseif(isset($_POST['rebaixar'])) {
         $sql_promover = mysqli_query($conn, "UPDATE membros SET usr_patente = '{$newpatente_id}', usr_responsavel = '{$usuarioNome}', usr_promo = CURRENT_TIMESTAMP() WHERE usr_habbo = '{$nick}'");
         $sql_insertlog = mysqli_query($conn, "INSERT INTO logs(usr_habbo, msg, usr_ip, log_tipo) VALUES('{$usuarioNome}', 'Rebaixou o usuário {$nick} - {$motivos}', '{$usr_ip}', '1')");
         $sql_insertnoti = mysqli_query($conn, "INSERT INTO notificacoes(enviado_por, user, msg, noti_type) VALUES('{$usuarioNome}', '{$nick}', 'Você foi rebaixado. Motivos/descrições: {$motivos}', '3')");
-        }
+        $sql_inserhist = mysqli_query($conn, "INSERT INTO historico(enviado_por, usr_habbo, tipo, msg) VALUES('{$usuarioNome}', '{$nick}', '3', '{$motivos}')");
+
+    }
         else { # Não pode rebaixar
             echo "<script type='text/javascript'>alert('Você não pode rebaixar este usuário!');window.location.href='painel.php';</script>";
             $usr_ip = $_SERVER['REMOTE_ADDR'];
@@ -117,7 +121,46 @@ elseif(isset($_POST['rebaixar'])) {
 }
 
 
+elseif(isset($_POST['advertir'])) {
+    # Verificação: usuário auto-rebaixando
+    $nick = $_POST['nickname'];
+    $motivos = $_POST['motivos'];
+    
+    if($_POST['nickname'] == $usuarioNome) {
+        echo "<script type='text/javascript'>alert('Você não pode se auto-advertir!');window.location.href='painel.php';</script>";
+        $usr_ip = $_SERVER['REMOTE_ADDR'];
+        $sql_insertlog = mysqli_query($conn, "INSERT INTO logs(usr_habbo, msg, usr_ip, log_tipo) VALUES('{$usuarioNome}', 'Tentou se auto-advertir.', '{$usr_ip}', '2')");
 
+    }
+    else {
+    # verificação de poder de advertencias:
+        # pegar patente do usuário sendo advertido
+        $sql_get_u_ptt = mysqli_query($conn, "SELECT * FROM membros WHERE usr_habbo = '{$nick}'");
+        $fetch_get_u_ptt = mysqli_fetch_array($sql_get_u_ptt);
+        $uptt_id = $fetch_get_u_ptt["usr_patente"];
+        
+        # comparação:
+        if($poder_rebaixar_patente < $uptt_id) { # Pode advertir
+            $newpatente_id = $uptt_id + 1;
+            $usr_ip = $_SERVER['REMOTE_ADDR'];
+        $sql_insertlog = mysqli_query($conn, "INSERT INTO logs(usr_habbo, msg, usr_ip, log_tipo) VALUES('{$usuarioNome}', 'Advertiu o usuário {$nick} - {$motivos}', '{$usr_ip}', '1')");
+        $sql_insertnoti = mysqli_query($conn, "INSERT INTO notificacoes(enviado_por, user, msg, noti_type) VALUES('{$usuarioNome}', '{$nick}', 'Você foi advertido. Motivos/descrições: {$motivos}', '2')");
+        $sql_inserhist = mysqli_query($conn, "INSERT INTO historico(enviado_por, usr_habbo, tipo, msg) VALUES('{$usuarioNome}', '{$nick}', '2', '{$motivos}')");
+        echo "<script type='text/javascript'>alert('Usuário advertido com sucesso!');window.location.href='painel.php';</script>";
+
+    }
+        else { # Não pode advertir
+            echo "<script type='text/javascript'>alert('Você não pode advertir este usuário!');window.location.href='painel.php';</script>";
+            $usr_ip = $_SERVER['REMOTE_ADDR'];
+            $sql_insertlog = mysqli_query($conn, "INSERT INTO logs(usr_habbo, msg, usr_ip, log_tipo) VALUES('{$usuarioNome}', 'Tentou advertir o usuário {$nick} mas não possui permissões.', '{$usr_ip}', '2')");
+
+        }
+    
+        }
+
+
+
+}
 
 ?>
 <!DOCTYPE html>
@@ -435,6 +478,46 @@ elseif(isset($_POST['rebaixar'])) {
 
 
 
+
+
+                                    <?php if($typeform == "advertir" && $patente_id <= 12): ?>
+                                        <div class="card">
+                                    <div class="card-header">
+                                       <strong>Advertir</strong> Policial
+                                    </div>
+                                    <div class="card-body card-block">
+                                        <form action="" method="post" class="form-horizontal">
+                                           
+                                            <div class="row form-group">
+                                                <div class="col col-md-3">
+                                                    <label for="data_inicio" class=" form-control-label">Nickname do Policial</label>
+                                                </div>
+                                                <div class="col-12 col-md-9">
+                                                    <input style='font-weight: bold;'type="text" id="hf-password" name="nickname" value="<?php echo $_GET["user"]; ?>"placeholder="Digite o nick de um policial" class="form-control">
+                                                    <span class="help-block">Digite o nick do policial <strong>corretamente</strong>. Apenas um policial por vez.</span>
+                                                </div>
+                                                
+                                                <div class="col col-md-3">
+                                                    <label for="motivos" class=" form-control-label">Motivos</label>
+                                                </div>
+                                                <div class="col-12 col-md-9">
+                                                <textarea name="motivos" id="textarea-input" rows="2" placeholder="Motivo(s) da advertência:" class="form-control"></textarea>
+                                                    <span class="help-block">Digite o motivo da advertência. OBS: Estará visível para a administração e nas notificações & histórico do usuário advertido.</span>
+                                                </div>
+                                            </div>
+                                            <div class="card-footer">
+                                        <button type="submit" name="advertir" class="btn btn-primary btn-sm">
+                                            <i class="fa fa-check"></i> Advertir
+                                        </button>
+                                        <button type="reset" class="btn btn-danger btn-sm">
+                                            <i class="fa fa-ban"></i> Resetar
+                                        </button>
+                                    </div>
+                                        </form>
+                                    </div>
+                                   
+                                </div>
+                                    <?php endif; ?>
 
 
 
