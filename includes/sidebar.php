@@ -3,7 +3,7 @@ include_once("./global.php");
 include("kernel/get_patente.php");
 $usuarioNome = $_SESSION["usuario"];
 
-$sql_get_adm = mysqli_query($conn, "SELECT * FROM painel WHERE usr_habbo = '{$usuarioNome}' AND usr_perm = 1");
+$sql_get_adm = mysqli_query($conn, "SELECT * FROM painel WHERE usr_habbo = '{$usuarioNome}' AND usr_perm >= 1");
 $count_get_adm = mysqli_num_rows($sql_get_adm);
 
 $sql_select_guia = mysqli_query($conn, "SELECT * FROM guias WHERE nickname = '{$usuarioNome}'");
@@ -94,7 +94,7 @@ $patente_id = $patente_id;
                                     <a href="forms.php?type=aval">
                                         <i class="fas fa-sign-in-alt"></i>Solicitar Aval</a>
                                 </li>
-                              
+                             
                             </ul>
                         </li>
                         <?php if($num_select_guia > 0): ?>

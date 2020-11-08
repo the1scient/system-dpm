@@ -4,7 +4,7 @@ include("kernel/verifica_login.php");
 include("kernel/get_patente.php");
 $usuarioNome = $_SESSION["usuario"];
 
-$getuserperm = mysqli_query($conn, "SELECT * FROM painel WHERE usr_habbo = '{$usuarioNome}' AND usr_perm = 1");
+$getuserperm = mysqli_query($conn, "SELECT * FROM painel WHERE usr_habbo = '{$usuarioNome}' AND usr_perm >= 1");
 $perm = mysqli_num_rows($getuserperm);
 if($perm == 0) {
     $usu_ip = $_SERVER['REMOTE_ADDR'];

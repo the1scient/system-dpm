@@ -1,7 +1,7 @@
 <?php 
 include_once("../global.php");
 $usuarioNome = $_SESSION["usuario"];
-$get_user_perm = mysqli_query($conn, "SELECT * FROM painel WHERE usr_habbo = '{$usuarioNome}' AND usr_perm = 1");
+$get_user_perm = mysqli_query($conn, "SELECT * FROM painel WHERE usr_habbo = '{$usuarioNome}' AND usr_perm >= 1");
 $count_user_perm = mysqli_num_rows($get_user_perm);
 if($count_user_perm == 0) {
 header('Location: ../painel.php');

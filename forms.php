@@ -330,7 +330,7 @@ elseif(isset($_POST['advertir'])) {
 
 
                                     <?php 
-                                   $getuserperm = mysqli_query($conn, "SELECT * FROM painel WHERE usr_habbo = '{$usuarioNome}' AND usr_perm = 1");
+                                   $getuserperm = mysqli_query($conn, "SELECT * FROM painel WHERE usr_habbo = '{$usuarioNome}' AND usr_perm >= 1");
                                    $perm = mysqli_num_rows($getuserperm);
 
                                     if($typeform == "add_destaques" && $perm > 0): ?>
