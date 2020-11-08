@@ -184,9 +184,13 @@ background: radial-gradient(circle, rgba(97,97,97,1) 34%, rgba(0,0,0,1) 85%);">
                                           if($self_perm_rebaixar > 0 && $usr != $usuarioNome):
 
                                             ?>
+                                             <a class="rebaixar" href="forms.php?type=advertir&user=<?php echo $usr_nome ?>" style="color: white; background-color: orange; border-radius: 6px; padding: 3px;">
+                                                <i class="fa fa-pinterest pr-1"></i>Advertir
+                                            </a>
                                            <a class="rebaixar" href="forms.php?type=rebaixar&user=<?php echo $usr_nome ?>" style="color: white; background-color: red; border-radius: 6px; padding: 3px;">
                                                 <i class="fa fa-pinterest pr-1"></i>Rebaixar
                                             </a>
+                                           
                                             <?php  endif; ?>
 
                                             <br>
@@ -197,8 +201,35 @@ background: radial-gradient(circle, rgba(97,97,97,1) 34%, rgba(0,0,0,1) 85%);">
                                     </div>
                                 </div>
                             </div>
-                            <h3 style='text-align: center;'>Histórico</h3>
-                               <?php ?>
+                            
+                               <?php
+                               $sql_get_historico = mysqli_query($conn, "SELECT * FROM historico WHERE usr_habbo = '{$usr_nome}' ORDER by id DESC");
+                                
+                                $count_get_historico = mysqli_num_rows($sql_get_historico);
+                                            echo '<h3 style="text-align: center;">Histórico</h3><h5 style="text-align: center;">'.$count_get_historico.' resultados encontrados.</h5>';
+
+                                while($fetch_gh = mysqli_fetch_array($sql_get_historico)) {
+
+                                $tipo_hist = $fetch_gh["tipo"];
+                                switch($tipo_hist) {
+                                    case 1:
+                                        $spanclass = '<span class="badge badge-success">'.date("d/m/Y H:i:s",strtotime($fetch_gh["data"])).' - Promoção: </span> - <strong>'.$usr_nome.'</strong> foi promovido por <strong>'.$fetch_gh["enviado_por"].'</strong>. Motivo: '.$fetch_gh["msg"].'  ';
+                                    break;
+                                    case 2:
+                                        $spanclass = '<span class="badge badge-warning">'.date("d/m/Y H:i:s",strtotime($fetch_gh["data"])).' - Advertência: </span> - <strong>'.$usr_nome.'</strong> foi advertido por <strong>'.$fetch_gh["enviado_por"].'</strong>. Motivo: '.$fetch_gh["msg"].'  ';
+                                    break;
+                                    case 3:
+                                        $spanclass = '<span class="badge badge-danger">'.date("d/m/Y H:i:s",strtotime($fetch_gh["data"])).' - Rebaixamento: </span> - <strong>'.$usr_nome.'</strong> foi rebaixado por <strong>'.$fetch_gh["enviado_por"].'</strong>. Motivo: '.$fetch_gh["msg"].'  ';
+                                    break;
+
+
+                                }        
+                              
+                              ?>
+                              <div>
+                                <?php echo $spanclass ?><br><br>
+                              </div>
+                              <?php } ?>
                                 </div>
                                 <!-- END RECENT REPORT 2             -->
                             </div>
