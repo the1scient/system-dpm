@@ -162,22 +162,28 @@ $usr_sudo = $sqlfetchsudo["usr_perm"];
                                             <tr>
                                                 <th>imagem</th>
                                                 <th>nick</th>
-                                                <th>patente</th>
                                                 <th>cargo</th>
-                                                <th></th>
                                             </tr>
                                         </thead>
                                         <tbody>';
                                     $sql_get_guias = mysqli_query($conn, "SELECT * FROM guias ORDER BY id ASC");
                                     while($resguias = mysqli_fetch_array($sql_get_guias)) {
                                     ?>
+
                                        
                                             <tr>
                                                 <td><img src="https://www.habbo.com.br/habbo-imaging/avatarimage?user=<?php echo $resguias['nickname'] ?>&action=std&direction=2&head_direction=2&gesture=std&size=b"></td>
                                                 <td style='font-weight: bold;'><?php echo $resguias['nickname'] ?></td>
-                                                <td><?php $name = $resguias['nickname']; 
-                                                getuserpatente($name); ?></td>
-                                                <td>a</td>
+                                                <td><?php
+                                                switch($resguias['cargo']) {
+                                                    case 1:
+                                                        $cgg = 'Membro';
+                                                    break;
+                                                    case 2:
+                                                        $cgg = 'Líder';
+                                                    break;
+                                                }
+                                                echo $cgg; ?></td>
                                                <!-- <td><a style="color: red" href="kernel/action.php"><i class="fa fa-gavel"></i> Desativar</a></td> -->
                                             </tr>
                                          
