@@ -4,7 +4,7 @@ include("kernel/get_patente.php");
 $usuarioNome = $_SESSION["usuario"];
 
 
-$query_not = "SELECT * FROM notificacoes WHERE user = '{$usuarioNome}' AND is_read = 0";
+$query_not = "SELECT * FROM notificacoes WHERE user = '{$usuarioNome}' AND is_read = 0 ORDER BY id DESC";
 $res_not = $conn->query($query_not);
 $total_not = $res_not->num_rows;
 
