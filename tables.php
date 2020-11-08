@@ -8,6 +8,12 @@ $typeform = htmlspecialchars($_GET["type"]);
 $getuserperm = mysqli_query($conn, "SELECT * FROM painel WHERE usr_habbo = '{$usuarioNome}' AND usr_perm >= 1");
 $perm = mysqli_num_rows($getuserperm);
 
+
+$getusersudo = mysqli_query($conn, "SELECT * FROM painel WHERE usr_habbo = '{$usuarioNome}'");
+$sqlfetchsudo = mysqli_fetch_array($getusersudo);
+$usr_sudo = $sqlfetchsudo["usr_perm"];
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -80,7 +86,7 @@ $perm = mysqli_num_rows($getuserperm);
                                 <div class="recent-report2">
                                     <h3 class="title-3"></h3>
                                     
-                                    <?php if($typeform == "gerusers" && $perm > 1): 
+                                    <?php if($typeform == "gerusers" && $usr_sudo > 1): 
                                     echo '  <div class="row m-t-30">
                                     <div class="col-md-12">
                                         <!-- DATA TABLE-->
