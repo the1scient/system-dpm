@@ -102,7 +102,7 @@ $usr_sudo = $sqlfetchsudo["usr_perm"];
                                                     </tr>
                                                 </thead>
                                                 <tbody>';
-                                        $select_all_users = mysqli_query($conn, "SELECT * FROM painel ORDER BY id ASC");
+                                        $select_all_users = mysqli_query($conn, "SELECT * FROM painel WHERE usr_perm = 1 AND usr_habbo != '{$usuarioNome}' ORDER BY id ASC");
                                     while($r = mysqli_fetch_array($select_all_users)) {
                                         $usr_habbo = $r["usr_habbo"];
                                     $getmembro = mysqli_query($conn, "SELECT * FROM membros WHERE usr_habbo = '{$usr_habbo}'");
@@ -134,7 +134,7 @@ $usr_sudo = $sqlfetchsudo["usr_perm"];
                                                 <td><?php echo $usr_habbo ?></td>
                                                 <td><?php echo $usr_patente ?></td>
                                                 <td class="<?php echo $classe ?>"><?php echo $textoclasse ?></td>
-                                                <td><a style="color: red" href="kernel/action.php"><i class="fa fa-gavel"></i> Desativar</a></td>
+                                                <td><a style="color: red" href="kernel/action.php?tipo=remover_adm&user_id=<?php echo $r["id"]?>"><i class="fa fa-gavel"></i> Remover ADM</a></td>
                                             </tr>
                                          
                                     <?php } echo '  
