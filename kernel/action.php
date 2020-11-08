@@ -26,7 +26,7 @@ if($_GET["tipo"])
         # Pegar permissão de adm
     $query_perm = mysqli_query($conn, "SELECT * FROM painel WHERE usr_habbo = '{$usuarioNome}'");
     $count_perm = mysqli_num_rows($query_perm);
-    if($count_perm == 1) {
+    if($count_perm >= 1) {
         
     }
     else {
