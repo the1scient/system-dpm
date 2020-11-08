@@ -7,15 +7,21 @@
                             <div class="col-md-12">
                                 <div class="au-breadcrumb-content">
                                     <div class="au-breadcrumb-left">
-                                        <span class="au-breadcrumb-span">You are here:</span>
+                                        <span class="au-breadcrumb-span"  style='color: black;'><i class="fa fa-info"></i> Lembrete: </span>
                                         <ul class="list-unstyled list-inline au-breadcrumb__list">
-                                            <li class="list-inline-item active">
-                                                <a href="#">Home</a>
+                                            <li class="list-inline-item active"  style='color: black;'>
+                                            <?php
+$a=array("A suprema arte da guerra é derrotar o inimigo sem lutar."=>"A suprema arte da guerra é derrotar o inimigo sem lutar.",
+"A sorte sorri para os audaciosos."=>"A sorte sorri para os audaciosos.",
+"Vença pelas suas atitudes, nunca discuta."=>"Vença pelas suas atitudes, nunca discuta.",
+"Aquele que ousa, vence."=>"Aquele que ousa, vence.",
+"Sentido = silêncio! Fale apenas quando permitido."=>"Sentido = silêncio! Fale apenas quando permitido.",
+"Em caso de dúvidas, pergunte aos seus superiores."=>"Em caso de dúvidas, pergunte aos seus superiores.",
+"Respeito é virtude de almas elegantes. Faça uso dela."=>"Respeito é virtude de almas elegantes. Faça uso dela.",
+);
+print_r(array_rand($a,1));
+?>
                                             </li>
-                                            <li class="list-inline-item seprate">
-                                                <span>/</span>
-                                            </li>
-                                            <li class="list-inline-item">Dashboard</li>
                                         </ul>
                                     </div>
                                   
