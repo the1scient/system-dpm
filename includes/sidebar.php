@@ -8,8 +8,16 @@ $count_get_adm = mysqli_num_rows($sql_get_adm);
 
 $sql_select_guia = mysqli_query($conn, "SELECT * FROM guias WHERE nickname = '{$usuarioNome}'");
 $num_select_guia = mysqli_num_rows($sql_select_guia);
+$fetch_select_guia = mysqli_fetch_array($sql_select_guia);
+$getlider_guia = $fetch_select_guia["cargo"];
+
 
 $patente_id = $patente_id;
+
+
+$getusersudo = mysqli_query($conn, "SELECT * FROM painel WHERE usr_habbo = '{$usuarioNome}'");
+$sqlfetchsudo = mysqli_fetch_array($getusersudo);
+$usr_sudo = $sqlfetchsudo["usr_perm"];
 
 ?>
 <!-- MENU SIDEBAR-->
@@ -45,10 +53,11 @@ $patente_id = $patente_id;
                                 </span>
                             </a>
                             <ul class="list-unstyled navbar__sub-list js-sub-list">
+                            <?php if($usr_sudo > 1): ?>
                             <li>
                                     <a href="tables.php?type=gerusers">
-                                    <i class="fas fa-gear"><i class="fas fa-users"></i></i>Gerenciar usuários - painel</a>
-                                </li>
+                                    <i class="fas fa-gear"><i class="fas fa-users"></i></i>Gerenciar usuários com permissão</a>
+                            </li><?php endif; ?>
                                 <li>
                                     <a href="viewlogs.php">
                                    <i class="fas fa-search"></i>Logs</a>
@@ -63,6 +72,7 @@ $patente_id = $patente_id;
                                 </li>
                             </ul>
                         </li>
+                      
                         <?php if($patente_id <= 5): ?>
                         <li class="has-sub">
                             <a class="js-arrow" href="#">
@@ -106,6 +116,12 @@ $patente_id = $patente_id;
                                 </span>
                             </a>
                             <ul class="list-unstyled navbar__sub-list js-sub-list">
+                            <?php if($getlider_guia > 1):?>
+                            <li >
+                                    <a href="forms.php?type=add_guia" style='color: red;'>
+                                        <i class="fas fa-sign-in-alt"></i>Adicionar guia</a>
+                                </li>
+                           <?php endif; ?>
                                 <li>
                                     <a href="forms.php?type=add_ts">
                                         <i class="fas fa-sign-in-alt"></i>T. Soldados (TS)</a>
@@ -114,7 +130,7 @@ $patente_id = $patente_id;
                                     <a href="tables.php?type=ver_guias">
                                         <i class="fas fa-sign-in-alt"></i>Ver lista de Guias</a>
                                 </li>
-                           
+                         
                             </ul>
                         </li>
                         <?php endif; ?>
