@@ -1,10 +1,15 @@
 <?php 
 include("global.php");
 include("kernel/verifica_login.php");
+
 $_SESSION["usr"] = $_POST["usr"];
 $usr = $_SESSION["usr"];
 
 $usuarioNome = $_SESSION["usuario"];
+
+$sql_get_perm = mysqli_query($conn, "SELECT * FROM painel WHERE usr_habbo = '{$usuarioNome}' AND usr_perm >= 1");
+$count_get_perm = mysqli_fetch_array($sql_get_perm);
+
 
 $sql_get_ptt = mysqli_query($conn, "SELECT * FROM membros WHERE usr_habbo = '{$usuarioNome}'");
 $fetch_get_ptt = mysqli_fetch_array($sql_get_ptt);
@@ -38,6 +43,9 @@ if($count_exist_member <= 0)
     else {
         $usr_patente = $r_u_p["patente"];
     }
+
+
+
 
 ?>
 <!DOCTYPE html>
@@ -192,10 +200,18 @@ background: radial-gradient(circle, rgba(97,97,97,1) 34%, rgba(0,0,0,1) 85%);">
                                             </a>
                                            
                                             <?php  endif; ?>
-
+                                                
                                             <br>
-                                            
-
+                                            <?php if($count_get_perm > 0): ?>
+                                            <br><br>
+                                                <span style='color: red; font-weight: bold; font-size: 16px;'>Ações Administrativas: &nbsp;</span>
+                                                <a class="mudar_senha" href="forms.php?type=mudar_user_senha&user=<?php echo $usr_nome ?>" style="color: white; background-color: red; border-radius: 6px; padding: 3px;">
+                                                <i class="fa fa-pinterest pr-1"></i>Mudar senha
+                                            </a>
+                                            <a class="remover_painel" href="forms.php?type=remover_painel&user=<?php echo $usr_nome ?>" style="color: white; background-color: red; border-radius: 6px; padding: 3px;">
+                                                <i class="fa fa-pinterest pr-1"></i>Remover do painel
+                                            </a>
+                                            <?php endif; ?>
 
                                         </div>
                                     </div>
