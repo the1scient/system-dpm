@@ -154,6 +154,8 @@ $usr_sudo = $sqlfetchsudo["usr_perm"];
                                     
                                     $sql_select_guia = mysqli_query($conn, "SELECT * FROM guias WHERE nickname = '{$usuarioNome}'");
                                     $num_select_guia = mysqli_num_rows($sql_select_guia);
+                                    $fetch_select_guia = mysqli_fetch_array($sql_select_guia);
+                                    $get_cargo_guia = $fetch_select_guia["cargo"];
                                     
                                     if($typeform == "ver_guias" && $num_select_guia > 0):
                                     
@@ -163,11 +165,13 @@ $usr_sudo = $sqlfetchsudo["usr_perm"];
                                                 <th>imagem</th>
                                                 <th>nick</th>
                                                 <th>cargo</th>
+                                                <th>Ação</th>
                                             </tr>
                                         </thead>
                                         <tbody>';
                                     $sql_get_guias = mysqli_query($conn, "SELECT * FROM guias ORDER BY id ASC");
                                     while($resguias = mysqli_fetch_array($sql_get_guias)) {
+                                        
                                     ?>
 
                                        
@@ -182,9 +186,19 @@ $usr_sudo = $sqlfetchsudo["usr_perm"];
                                                     case 2:
                                                         $cgg = 'Líder';
                                                     break;
+                                                    default:
+                                                    $cgg = 'Erro - contate a Direção';
+                                                break;
                                                 }
                                                 echo $cgg; ?></td>
-                                               <!-- <td><a style="color: red" href="kernel/action.php"><i class="fa fa-gavel"></i> Desativar</a></td> -->
+                                                <?php if($get_cargo_guia > 1):?>
+                                                <td><a style="color: red;" href="kernel/action.php?tipo=remover_guia&nickname=<?php echo $resguias["nickname"]; ?> "><i class="fa fa-gavel"></i> Remover guia</a>
+                                                <?php if($perm): ?><br> <a style="color: green;" href="kernel/action.php?tipo=transformar_lider_guia&nickname=<?php echo $resguias["nickname"]; ?> "><i class="fa fa-arrow-up"></i> Tornar líder</a><?php endif; ?>
+                                                </td>
+                                                <?php endif; ?>
+                                              
+                                              
+                                               <!--  -->
                                             </tr>
                                          
                                     <?php } 
