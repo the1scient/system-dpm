@@ -1,5 +1,6 @@
 # System UNEP
 System feito em exclusividade para a Polícia DPM (Departamento de Polícia Militar) do Habbo Hotel BR/PT.
+Observação: é necessário ter o Dashboard CoolAdmin.
 
 > O que é um System?
 
@@ -10,4 +11,5 @@ R: Um System é basicamente um CRUD para manter o controle de relatórios, regis
 R: Definitivamente sim! É por isso que o código é open-source e está aqui no GitHub. Lembre-se apenas de manter os meus créditos no System, de acordo com a Licença Apache, e seja feliz!
 
 ### Contato:
-- Discord: the1scient#9999
+- Discord: tFabbri#0001
+
