@@ -11,5 +11,5 @@ R: Um System é basicamente um CRUD para manter o controle de relatórios, regis
 R: Definitivamente sim! É por isso que o código é open-source e está aqui no GitHub. Lembre-se apenas de manter os meus créditos no System, de acordo com a Licença Apache, e seja feliz!
 
 ### Contato:
-- Discord: tFabbri#0001
+- Discord: Fabbri#3166
 
